@@ -3,21 +3,22 @@ import os, re, types
 from block import Block
 from class_types.creature_classes import Creature, Caste, Attack, CanDoInteraction, CasteGroup
 from class_types.interaction_classes import Interaction, ITarget, IEffect
-from raw_logger import logDebug, logInfo, info
+from raw_logger import logDebug, logInfo, info, logError
 from tags import Tag
 
 
-raw_root = "D:\\Desktop\\Dwarf Fortress\\Dwarf Fortress - Original\\Dwarf Fortress 0.44.12\\raw\\objects"
+#raw_root = "D:\\Desktop\\Dwarf Fortress\\Dwarf Fortress - Original\\Dwarf Fortress 0.44.12\\raw\\objects"
+
 raw_root = "."
 
-file_name = "interaction_standard.txt"
+#file_name = "interaction_standard.txt"
 file_name = "creature_z_dragons.txt"
-file_name = "creature_z_dragons_test.txt"
+#file_name = "creature_z_dragons_test.txt"
 
 
 class File(Block):
 	def __init__(self, path, file_name, *args, **kwargs):
-		super().__init__(*args, **kwargs)
+		super().__init__(Tag(), self, *args, **kwargs)
 		self.are_classes = {
 			"interaction": Interaction,
 			"i_target": ITarget,
@@ -31,7 +32,7 @@ class File(Block):
 
 		regex = r"\[([\d\w\s\-\:\.,]+)\]"
 
-		self.file_type = None
+		self.name = None
 
 		self.path = os.path.dirname(path)
 		full_path = os.path.join(path, file_name)
@@ -40,10 +41,10 @@ class File(Block):
 		self.regex = re.compile(regex)
 
 		if not os.path.isdir(path):
-			self.logError("Invalid folder supplied")
+			logError("Invalid folder supplied")
 
 		if not os.path.isfile(full_path):
-			self.logError("Invalid file supplied")
+			logError("Invalid file supplied")
 
 		self.file_name = file_name.split(".")
 		self.file_extension = self.file_name[-1]
@@ -62,7 +63,7 @@ class File(Block):
 			self.create_class(new_tag)
 
 		elif new_tag.tag_name == "object":
-			self.file_type = new_tag
+			self.name = new_tag
 
 		else:
 			self.last_class_block.add_tag(new_tag)
@@ -88,14 +89,6 @@ class File(Block):
 			self.last_class_block = self.create_block(new_class)
 			logDebug("Created <span id='{new_class}'>{new_class}</span> master class".format(new_class=new_class))
 
-		elif new_class.class_type in ["caste", "caste_group"]:
-			logDebug("Created caste <span id='{new_class}'>{new_class}</span> into {creature}".format(
-				new_class=new_class,
-				creature=self.last_block
-			))
-
-			self.last_class_block = self.last_block[new_class] = Block(name=new_class, father=self.last_block)
-
 
 		elif self.last_class_block.name.class_type in new_class.parents:
 			logDebug("Created <span id='{new_class}'>{new_class}</span> into {father}".format(
@@ -117,13 +110,15 @@ class File(Block):
 			self.last_class_block = self.last_class_block.parent_block
 			self.assign_parents(new_class)
 
-
 		else:
 			logDebug("No parent found for {new_class}".format(
 				new_class=new_class,
 			))
 			raise(Exception("No parent found"))
 
+	def to_raw(self):
+		return self.file_name + ("\n"*2) + super().to_raw(True)
+
 
 file = File(raw_root, file_name)
-logInfo("<pre>"+str(list(x for x in file))+"</pre>")
+logInfo("<pre>"+ file.to_raw() +"</pre>")

@@ -1,4 +1,3 @@
-from block import Block
 from raw_logger import logDebug
 from tags import Tag
 
@@ -27,8 +26,6 @@ class Creature(Tag):
 
 		self.class_type = "creature"
 		self.file_path = "library/creature/"
-		self.castes = Block(father=self)
-		self.selected_castes = []
 
 		self._current_index = -1
 
@@ -51,9 +48,3 @@ class CasteGroup(Tag):
 		self.additional_castes = set()
 		self.class_type = "caste_group"
 		self.parents = ["creature",]
-
-		#self.register_special_tag("select_additional_caste", self.select_additional_caste)
-
-	def select_additional_caste(self, args:str):
-		self.additional_castes.add(args)
-		logDebug("Selecting additional caste {0} in <a href='#{1}'>{1}</a>\nSelected castes: {2}".format(args, self, self.args_list))

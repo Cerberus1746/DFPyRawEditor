@@ -85,13 +85,14 @@ class TagGroup(object):
 		else:
 			self._group.add(Tag.parse(tag, owner=self.owner))
 
-	def to_raw(self):
-		lines = []
-		sorted_tags = list(self._group)
+	def to_raw(self, auto_join):
+		lines =  list(self._group)
+		sorted_tags = sorted(lines, key=lambda x: (str(x)[:25] !='[select_additional_caste:', x))
 
-		sorted_tags.sort()
+		lines = [tag.to_raw_line() for tag in sorted_tags]
 
-		for tags in sorted_tags:
-			lines.append("\t" + tags.to_raw_line())
+		if auto_join:
+			return "\n".join(lines)
 
-		return "\n".join(lines)
+		else:
+			return lines

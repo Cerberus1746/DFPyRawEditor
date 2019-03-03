@@ -137,3 +137,4 @@ def logWarn(message):
 
 def logError(message):
 	rootLogger.error(message, extra=info)
+	raise Exception(message)

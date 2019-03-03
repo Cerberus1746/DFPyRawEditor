@@ -1,25 +1,28 @@
-from block import Block
+from tags import Tag
 
-class Interaction(Block):
+class Interaction(Tag):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
+		self.class_type = "interaction"
 		self.file_path = "library/interaction/"
 		self.prefix = ["i",]
 		self.parents = False
 
-class ITarget(Block):
+class ITarget(Tag):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
+		self.class_type = "i_target"
 		self.file_path = "library/interaction/"
 		self.prefix = ["it",]
 		self.parents = ["interaction",]
 
-class IEffect(Block):
+class IEffect(Tag):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
+		self.class_type = "i_effect"
 		self.file_path = "library/interaction/"
 		self.prefix = ["ie", "syndrome"]
 		self.parents = ["interaction",]
