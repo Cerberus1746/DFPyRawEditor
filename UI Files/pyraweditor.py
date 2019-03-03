@@ -8,6 +8,7 @@
 # Manual changes will be overwritten without warning!
 
 import wx
+
 from MainFrame import MainFrame
 
 

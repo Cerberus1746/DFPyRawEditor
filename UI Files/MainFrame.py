@@ -4,13 +4,12 @@
 #
 
 import wx
+
+
 # begin wxGlade: dependencies
 # end wxGlade
-
 # begin wxGlade: extracode
 # end wxGlade
-
-
 class MainFrame(wx.Frame):
 	def __init__(self, *args, **kwds):
 		# begin wxGlade: MainFrame.__init__

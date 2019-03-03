@@ -1,5 +1,6 @@
 import os, re, types
 
+from block import Block
 from class_types.creature_classes import Creature, Caste, Attack, CanDoInteraction, CasteGroup
 from class_types.interaction_classes import Interaction, ITarget, IEffect
 from raw_logger import logDebug, logInfo, info
@@ -14,44 +15,29 @@ file_name = "creature_z_dragons.txt"
 file_name = "creature_z_dragons_test.txt"
 
 
-class File(object):
-	are_classes = {
-		"interaction": Interaction,
-		"i_target": ITarget,
-		"i_effect": IEffect,
-		"creature":  Creature,
-		"caste": Caste,
-		"select_caste": CasteGroup,
-		"can_do_interaction": CanDoInteraction,
-		"attack": Attack
-	}
+class File(Block):
+	def __init__(self, path, file_name, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.are_classes = {
+			"interaction": Interaction,
+			"i_target": ITarget,
+			"i_effect": IEffect,
+			"creature":  Creature,
+			"caste": Caste,
+			"select_caste": CasteGroup,
+			"can_do_interaction": CanDoInteraction,
+			"attack": Attack
+		}
 
-	special_functions = {}
+		regex = r"\[([\d\w\s\-\:\.,]+)\]"
 
-	master_parents = []
-	last_class = None
+		self.file_type = None
 
-	file_blocks = {}
-	regex = r"\[([\d\w\s\-\:\.,]+)\]"
-
-	current_block_level = 0
-	file_name = None
-	file_type = None
-
-	auto_add_tags = True
-
-	@property
-	def last_master_class(self):
-		if len(self.master_parents):
-			return self.master_parents[-1]
-		else:
-			return False
-
-	def __init__(self, path, file_name):
 		self.path = os.path.dirname(path)
 		full_path = os.path.join(path, file_name)
+		self.last_class_block = False
 
-		self.regex = re.compile(self.regex)
+		self.regex = re.compile(regex)
 
 		if not os.path.isdir(path):
 			self.logError("Invalid folder supplied")
@@ -68,11 +54,6 @@ class File(object):
 			for line in re.findall(self.regex, current_raw.read()):
 				self.parse_line(line.lower())
 
-			self.last_master_class.end_trigger()
-
-		for current_class in self.master_parents:
-			current_class.write_files()
-
 	def parse_line(self, line):
 		info['last_raw_line'] = line.upper()
 		new_tag = Tag.parse(line)
@@ -81,10 +62,10 @@ class File(object):
 			self.create_class(new_tag)
 
 		elif new_tag.tag_name == "object":
-			self.file_type = new_tag.tag_args[0]
+			self.file_type = new_tag
 
 		else:
-			self.last_class.parse_tag(new_tag)
+			self.last_class_block.add_tag(new_tag)
 
 	def is_class(self, tag):
 		return tag.tag_name in self.are_classes.keys()
@@ -97,42 +78,52 @@ class File(object):
 			name=(tag.tag_name + "-" + "-".join(tag.tag_args)).title(),
 			bases=(default_obj,),
 		)
-		new_class = new_class(
-			tag.tag_args,
-			":".join(tag.tag_args),
-			self,
-			self.last_class,
-			self.auto_add_tags
-		)
 
+		self.assign_parents(new_class(tag))
+
+	def assign_parents(self, new_class):
+		info['last_class'] = new_class
 		if not new_class.parents:
-			if self.last_master_class:
-				self.last_master_class.end_trigger()
-			info['last_class'] = info['last_master_class'] = new_class
-			self.last_class = self.last_master_parent = new_class
-			self.master_parents.append(new_class)
+			info['last_master_class'] = new_class
+			self.last_class_block = self.create_block(new_class)
 			logDebug("Created <span id='{new_class}'>{new_class}</span> master class".format(new_class=new_class))
 
-		elif new_class.class_type == "caste":
-			self.last_class = new_class
-			self.last_master_class.castes[new_class.args_list[0]] = new_class
-			logDebug(
-				"Created caste <span id='{new_class}'>{new_class}</span> into <a href='#{last_master}'>{last_master}</a> master class".format(
+		elif new_class.class_type in ["caste", "caste_group"]:
+			logDebug("Created caste <span id='{new_class}'>{new_class}</span> into {creature}".format(
 				new_class=new_class,
-				last_master=self.last_master_class
+				creature=self.last_block
 			))
 
-		elif new_class.class_type == "select_caste":
-			self.last_class = new_class
-			self.last_master_class.selected_castes.append(new_class)
-			logDebug("Created caste selection <span id='{new_class}'>{new_class}</span> into <a href='#{last_master}'>{last_master}</a> master class".format(
-				new_class=new_class,
-				last_master=self.last_master_class
+			self.last_class_block = self.last_block[new_class] = Block(name=new_class, father=self.last_block)
+
+
+		elif self.last_class_block.name.class_type in new_class.parents:
+			logDebug("Created <span id='{new_class}'>{new_class}</span> into {father}".format(
+				new_class= new_class,
+				father= self.last_class_block
 			))
+
+			self.last_class_block = self.last_class_block.create_block(new_class)
+
+		elif self.last_class_block.parent_block:
+			logDebug(
+				"Start recursion for class {new_class} with type {class_type} with last class {last_class} to find {parents}".format(
+					new_class=new_class,
+					class_type= new_class.class_type,
+					last_class=self.last_class_block,
+					parents=new_class.parents
+			))
+
+			self.last_class_block = self.last_class_block.parent_block
+			self.assign_parents(new_class)
+
 
 		else:
-			self.last_class.assign_class_parents(new_class)
+			logDebug("No parent found for {new_class}".format(
+				new_class=new_class,
+			))
+			raise(Exception("No parent found"))
 
 
 file = File(raw_root, file_name)
-logInfo("<pre>"+file.last_master_class.to_raw()+"</pre>")
+logInfo("<pre>"+str(list(x for x in file))+"</pre>")

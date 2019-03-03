@@ -1,6 +1,6 @@
-from default_class import DefaultClass
+from block import Block
 
-class Interaction(DefaultClass):
+class Interaction(Block):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
@@ -8,7 +8,7 @@ class Interaction(DefaultClass):
 		self.prefix = ["i",]
 		self.parents = False
 
-class ITarget(DefaultClass):
+class ITarget(Block):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
@@ -16,7 +16,7 @@ class ITarget(DefaultClass):
 		self.prefix = ["it",]
 		self.parents = ["interaction",]
 
-class IEffect(DefaultClass):
+class IEffect(Block):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
