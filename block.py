@@ -5,8 +5,8 @@ from raw_logger import logInfo
 
 
 class Block(OrderedDict):
-	def __init__(self, name, father, block_level = -1, *args, **kwargs):
-		assert isinstance(name, Tag), "Name is invalid"
+	def __init__(self, tag, father, block_level = -1, *args, **kwargs):
+		assert isinstance(tag, Tag), "Name is invalid"
 		assert isinstance(father, Block), "Block is invalid"
 
 		block_level += 1
@@ -16,14 +16,14 @@ class Block(OrderedDict):
 		self.tags = TagGroup(owner=self)
 
 		self.parent_block = father
-		self.name = name
+		self.tag = tag
 
-		logInfo("block level {}".format(self.block_level, self.name))
+		logInfo("block level {}".format(self.block_level, self.tag))
 
 		super().__init__(*args, **kwargs)
 
 	def __str__(self):
-		return str(self.name)
+		return str(self.tag)
 
 	def __repr__(self):
 		return self.__str__()
@@ -50,7 +50,7 @@ class Block(OrderedDict):
 		return created_block
 
 	def to_raw(self, auto_join):
-		lines = ["\n" + ("\t" * (self.block_level - 1)) + self.name.to_raw_line(),]
+		lines = ["\n" + ("\t" * (self.block_level - 1)) + self.tag.to_raw_line(),]
 
 		before_tabs = self.tags.to_raw(False)
 		after_tabs = map(lambda x: ("\t" * self.block_level) + x, before_tabs)

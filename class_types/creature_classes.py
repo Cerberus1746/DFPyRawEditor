@@ -1,4 +1,3 @@
-from raw_logger import logDebug
 from tags import Tag
 
 
@@ -29,9 +28,6 @@ class Creature(Tag):
 
 		self._current_index = -1
 
-	def __getitem__(self, key):
-		return self.castes[key]
-
 
 class Caste(Tag):
 	def __init__(self, *args, **kwargs):
@@ -45,6 +41,6 @@ class CasteGroup(Tag):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
-		self.additional_castes = set()
 		self.class_type = "caste_group"
 		self.parents = ["creature",]
+

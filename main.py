@@ -1,7 +1,15 @@
 import os, re, types
 
 from block import Block
-from class_types.creature_classes import Creature, Caste, Attack, CanDoInteraction, CasteGroup
+from class_types.creature_classes import (
+	Creature,
+	Caste,
+	Attack,
+	CanDoInteraction,
+	CasteGroup,
+	BpAppearanceModifier,
+	SetTlGroup
+)
 from class_types.interaction_classes import Interaction, ITarget, IEffect
 from raw_logger import logDebug, logInfo, info, logError
 from tags import Tag
@@ -27,12 +35,14 @@ class File(Block):
 			"caste": Caste,
 			"select_caste": CasteGroup,
 			"can_do_interaction": CanDoInteraction,
-			"attack": Attack
+			"attack": Attack,
+			"bp_appearance_modifier": BpAppearanceModifier,
+			"set_tl_group": SetTlGroup
 		}
 
 		regex = r"\[([\d\w\s\-\:\.,]+)\]"
 
-		self.name = None
+		self.tag = None
 
 		self.path = os.path.dirname(path)
 		full_path = os.path.join(path, file_name)
@@ -56,14 +66,21 @@ class File(Block):
 				self.parse_line(line.lower())
 
 	def parse_line(self, line):
-		info['last_raw_line'] = line.upper()
-		new_tag = Tag.parse(line)
+		if type(line) != Tag:
+			info['last_raw_line'] = line.upper()
+			new_tag = Tag.parse(line)
+		else:
+			new_tag = line
 
 		if self.is_class(new_tag):
 			self.create_class(new_tag)
 
 		elif new_tag.tag_name == "object":
-			self.name = new_tag
+			self.tag = new_tag
+
+		elif self.check_prefix(new_tag) == "INVALID":
+			self.last_class_block = self.last_class_block.parent_block
+			self.parse_line(new_tag)
 
 		else:
 			self.last_class_block.add_tag(new_tag)
@@ -82,6 +99,24 @@ class File(Block):
 
 		self.assign_parents(new_class(tag))
 
+
+	def check_prefix(self, tag_or_class):
+		needed_prefix = self.last_class_block.tag.need_prefix
+		if not needed_prefix:
+			return True
+		if type(tag_or_class) == Tag:
+			if tag_or_class.prefix not in needed_prefix:
+				return "INVALID"
+
+		elif issubclass(type(tag_or_class), Tag):
+			logError(tag_or_class)
+			if tag_or_class.tag.prefix not in needed_prefix:
+				return "INVALID"
+
+		else:
+			raise Exception("Invalid tag_or_class {} found".format(tag_or_class))
+
+
 	def assign_parents(self, new_class):
 		info['last_class'] = new_class
 		if not new_class.parents:
@@ -90,7 +125,7 @@ class File(Block):
 			logDebug("Created <span id='{new_class}'>{new_class}</span> master class".format(new_class=new_class))
 
 
-		elif self.last_class_block.name.class_type in new_class.parents:
+		elif self.last_class_block.tag.class_type in new_class.parents:
 			logDebug("Created <span id='{new_class}'>{new_class}</span> into {father}".format(
 				new_class= new_class,
 				father= self.last_class_block

@@ -25,6 +25,7 @@ class Tag(object):
 
 		self.prefix = self.tag_name.split("_")[0]
 		self.owner = owner_class
+		self.need_prefix = False
 		self.parents = False
 
 	def __eq__(self, other):

@@ -6,7 +6,7 @@ class Interaction(Tag):
 
 		self.class_type = "interaction"
 		self.file_path = "library/interaction/"
-		self.prefix = ["i",]
+		self.need_prefix = ["i",]
 		self.parents = False
 
 class ITarget(Tag):
@@ -15,7 +15,7 @@ class ITarget(Tag):
 
 		self.class_type = "i_target"
 		self.file_path = "library/interaction/"
-		self.prefix = ["it",]
+		self.need_prefix = ["it",]
 		self.parents = ["interaction",]
 
 class IEffect(Tag):
@@ -24,5 +24,5 @@ class IEffect(Tag):
 
 		self.class_type = "i_effect"
 		self.file_path = "library/interaction/"
-		self.prefix = ["ie", "syndrome"]
+		self.need_prefix = ["ie", "syndrome"]
 		self.parents = ["interaction",]
