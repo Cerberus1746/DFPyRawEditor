@@ -53,14 +53,6 @@ class SetTlGroup(Tag):
 		self.need_prefix = ["tl", "bp"]
 		self.parents = ["caste", "creature", "select_caste"]
 
-#BODY_DETAIL_PLAN
-class BodyDetailPlan(Tag):
-	class_type = "body_detail_plan"
-
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-
-		self.parents = ["caste", "creature", "select_caste"]
 
 class SetBpGroup(Tag):
 	class_type = "set_bp_group"

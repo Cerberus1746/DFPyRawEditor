@@ -1,15 +1,14 @@
+import inspect, sys
 import os, re, types
 
 from block import Block
-
-from raw_logger import logDebug, logInfo, info, logError
-from tags import Tag
-import inspect, sys
 import class_types.creature_classes
 import class_types.interaction_classes
+from raw_logger import logDebug, logInfo, info, logError
+from tags import Tag
+
 
 #raw_root = "D:\\Desktop\\Dwarf Fortress\\Dwarf Fortress - Original\\Dwarf Fortress 0.44.12\\raw\\objects"
-
 raw_root = "."
 
 #file_name = "interaction_standard.txt"
