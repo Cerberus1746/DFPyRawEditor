@@ -9,12 +9,14 @@ file_header = """
 		<style>
 			body {
 				width: 100%%;
+				word-wrap: break-word;
 			}
 
 			ul {
 				margin-top: 0px;
 				padding-top: 0px;
 			}
+
 
 			li p {
 				margin-top: 0px;

@@ -2,31 +2,46 @@ from collections.abc import Iterable
 
 from raw_logger import logDebug
 
+class TagIndex(object):
+	_instance = None
+	_tag_list = []
+
+	def __new__(cls, *args, **kwargs):
+		if cls._instance is None:
+			cls._instance = super().__new__(cls, *args, **kwargs)
+		return cls._instance
+
+	def add_tag(self, tag):
+		assert (isinstance(tag, Tag) or issubclass(type(tag), Tag)), "Tag needs to be a subclass of tag or a tag"
+		self._tag_list.append(tag)
 
 class Tag(object):
-	def __init__(self, tag_name="", tag_args:iter=None, owner_class=None):
-		if isinstance(tag_name, Tag):
-			self.tag_name = tag_name.tag_name
-			self.tag_args = tag_name.tag_args
-		else:
-			if (isinstance(tag_args, Iterable) and not isinstance(tag_args, str)) or tag_args == None:
-				self.tag_args = tag_args
-			else:
-				raise(Exception("tag_args attr has to be a iter"))
+	tag_index = TagIndex()
 
-			if (":" in tag_name and tag_args == None) or ("[" in tag_name or "]" in tag_name):
-				split_tag = tag_name.split(":")
-				self.tag_name = split_tag[0]
-				self.tag_args = split_tag[1:]
-			else:
-				self.tag_name = tag_name
-				self.tag_args = tag_args
+	def __init__(self, tag_name="", tag_args:iter=None, owner_class=None):
+		if type(tag_name) != str:
+			raise AttributeError("tag_name needs to be a str")
+
+		if (isinstance(tag_args, Iterable) and not isinstance(tag_args, str)) or tag_args == None:
+			self.tag_args = tag_args
+		else:
+			raise(Exception("tag_args attr has to be a iter"))
+
+		if (":" in tag_name and tag_args == None) or ("[" in tag_name or "]" in tag_name):
+			split_tag = tag_name.split(":")
+			self.tag_name = split_tag[0]
+			self.tag_args = split_tag[1:]
+		else:
+			self.tag_name = tag_name
+			self.tag_args = tag_args
 
 
 		self.prefix = self.tag_name.split("_")[0]
 		self.owner = owner_class
 		self.need_prefix = False
 		self.parents = False
+
+		self.tag_index.add_tag(self)
 
 	def __eq__(self, other):
 		return self.__hash__() == other.__hash__()
@@ -58,7 +73,10 @@ class Tag(object):
 		return cls(*Tag.extract_info(raw_line))
 
 	def to_raw_line(self):
-		raw_line = ":".join([self.tag_name, *self.tag_args])
+		if self.tag_args:
+			raw_line = ":".join([self.tag_name, *self.tag_args])
+		else:
+			raw_line = self.tag_name
 		return "[" + raw_line + "]"
 
 class TagGroup(object):
@@ -97,3 +115,9 @@ class TagGroup(object):
 
 		else:
 			return lines
+
+
+if __name__ == "__main__":
+	creature_draco = Tag("creature", ["draco",])
+	tag = Tag("another", ["test",])
+	print(TagIndex()._tag_list)

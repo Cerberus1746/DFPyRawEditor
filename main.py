@@ -53,55 +53,48 @@ class File(Block):
 				self.parse_line(line.lower())
 
 	def parse_line(self, line):
-		if type(line) != Tag:
-			info['last_raw_line'] = line.upper()
-			new_tag = Tag.parse(line)
-		else:
-			new_tag = line
+		split_line = line.split(":")
+		tag_name = split_line[0]
+		tag_args =  split_line[1:]
+		tag_prefix = tag_name.split("_")[0]
 
-		if self.is_class(new_tag):
-			self.create_class(new_tag)
+		if self.is_class(tag_name):
+			self.create_class(tag_name, tag_args)
 
-		elif new_tag.tag_name == "object":
-			self.tag = new_tag
+		elif tag_name == "object":
+			self.tag = Tag.parse(line)
 
-		elif self.check_prefix(new_tag) == "INVALID":
+		elif self.check_prefix(tag_prefix) == "INVALID":
 			self.last_class_block = self.last_class_block.parent_block
-			self.parse_line(new_tag)
+			self.parse_line(line)
 
 		else:
-			self.last_class_block.add_tag(new_tag)
+			self.last_class_block.add_tag(Tag.parse(line))
 
-	def is_class(self, tag):
-		return tag.tag_name in self.are_classes.keys()
+	def is_class(self, tag_name):
+		return tag_name in self.are_classes.keys()
 
-	def create_class(self, tag):
-		raw_class_dict = self.are_classes[tag.tag_name]
+	def create_class(self, tag_name, tag_args):
+		raw_class_dict = self.are_classes[tag_name]
 		default_obj = raw_class_dict
 
 		new_class = types.new_class(
-			name=(tag.tag_name + "-" + "-".join(tag.tag_args)).title(),
+			name=(tag_name + "-" + "-".join(tag_args)).title(),
 			bases=(default_obj,),
 		)
+		new_class = new_class(tag_name, tag_args)
 
-		self.assign_parents(new_class(tag))
+		self.assign_parents(new_class)
 
 
-	def check_prefix(self, tag_or_class):
+	def check_prefix(self, prefix):
 		needed_prefix = self.last_class_block.tag.need_prefix
 		if not needed_prefix:
 			return True
-		if type(tag_or_class) == Tag:
-			if tag_or_class.prefix not in needed_prefix:
-				return "INVALID"
 
-		elif issubclass(type(tag_or_class), Tag):
-			logError(tag_or_class)
-			if tag_or_class.tag.prefix not in needed_prefix:
-				return "INVALID"
+		if prefix not in needed_prefix:
+			return "INVALID"
 
-		else:
-			raise Exception("Invalid tag_or_class {} found".format(tag_or_class))
 
 
 	def assign_parents(self, new_class):
@@ -145,6 +138,7 @@ class File(Block):
 	def to_raw(self):
 		return self.file_name + ("\n"*2) + super().to_raw(True)
 
-
-file = File(raw_root, file_name)
-logInfo("<pre>"+ file.to_raw() +"</pre>")
+if __name__ == "__main__":
+	file = File(raw_root, file_name)
+	logInfo("<pre>"+ file.to_raw() +"</pre>")
+	logInfo(Tag.tag_index._tag_list)

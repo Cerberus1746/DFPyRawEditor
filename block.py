@@ -53,9 +53,10 @@ class Block(OrderedDict):
 		lines = [("\t" * (self.block_level - 1)) + self.tag.to_raw_line(),]
 
 		before_tabs = self.tags.to_raw(False)
-		after_tabs = map(lambda x: ("\t" * self.block_level) + x, before_tabs)
+		if len(before_tabs) > 0:
+			after_tabs = map(lambda x: ("\t" * self.block_level) + x, before_tabs)
 
-		lines.append("\n".join(after_tabs))
+			lines.append("\n".join(after_tabs))
 
 		for child_class in self.values():
 			lines.append(child_class.to_raw(True))
