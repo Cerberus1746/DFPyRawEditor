@@ -135,6 +135,9 @@ def logInfo(message):
 def logWarn(message):
 	rootLogger.warn(message, extra=info)
 
-def logError(message):
+def logError(message, exc=False):
 	rootLogger.error(message, extra=info)
-	raise Exception(message)
+	if exc:
+		raise exc
+	else:
+		raise Exception(message)

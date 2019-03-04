@@ -12,8 +12,9 @@ from tags import Tag
 raw_root = "."
 
 #file_name = "interaction_standard.txt"
-file_name = "creature_z_dragons.txt"
+#file_name = "creature_z_dragons.txt"
 #file_name = "creature_z_dragons_test.txt"
+file_name = "creature_standard_test.txt"
 
 
 class File(Block):
@@ -105,37 +106,41 @@ class File(Block):
 
 	def assign_parents(self, new_class):
 		info['last_class'] = new_class
-		if not new_class.parents:
-			info['last_master_class'] = new_class
-			self.last_class_block = self.create_block(new_class)
-			logDebug("Created <span id='{new_class}'>{new_class}</span> master class".format(new_class=new_class))
+		try:
+			if not new_class.parents:
+				info['last_master_class'] = new_class
+				self.last_class_block = self.create_block(new_class)
+				logDebug("Created <span id='{new_class}'>{new_class}</span> master class".format(new_class=new_class))
 
 
-		elif self.last_class_block.tag.class_type in new_class.parents:
-			logDebug("Created <span id='{new_class}'>{new_class}</span> into {father}".format(
-				new_class= new_class,
-				father= self.last_class_block
-			))
+			elif self.last_class_block.tag.class_type in new_class.parents:
+				logDebug("Created <span id='{new_class}'>{new_class}</span> into {father}".format(
+					new_class= new_class,
+					father= self.last_class_block
+				))
 
-			self.last_class_block = self.last_class_block.create_block(new_class)
+				self.last_class_block = self.last_class_block.create_block(new_class)
 
-		elif self.last_class_block.parent_block:
-			logDebug(
-				"Start recursion for class {new_class} with type {class_type} with last class {last_class} to find {parents}".format(
+			elif self.last_class_block.parent_block:
+				logDebug(
+					"Start recursion for class {new_class} with type {class_type} with last class {last_class} to find {parents}".format(
+						new_class=new_class,
+						class_type= new_class.class_type,
+						last_class=self.last_class_block,
+						parents=new_class.parents
+				))
+
+				self.last_class_block = self.last_class_block.parent_block
+				self.assign_parents(new_class)
+
+			else:
+				logDebug("No parent found for {new_class}".format(
 					new_class=new_class,
-					class_type= new_class.class_type,
-					last_class=self.last_class_block,
-					parents=new_class.parents
-			))
-
-			self.last_class_block = self.last_class_block.parent_block
-			self.assign_parents(new_class)
-
-		else:
-			logDebug("No parent found for {new_class}".format(
-				new_class=new_class,
-			))
-			raise(Exception("No parent found"))
+				))
+				raise(Exception("No parent found"))
+		except AttributeError as e:
+			logDebug(self.last_block)
+			logError(self.last_block, e)
 
 	def to_raw(self):
 		return self.file_name + ("\n"*2) + super().to_raw(True)

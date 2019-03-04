@@ -50,7 +50,7 @@ class SetTlGroup(Tag):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 
-		self.need_prefix = ["tl", "bp"]
+		self.need_prefix = ["tl", "bp", "plus"]
 		self.parents = ["caste", "creature", "select_caste"]
 
 
@@ -79,5 +79,34 @@ class TlColorModifier(Tag):
 		super().__init__(*args, **kwargs)
 
 		self.need_prefix = ["tlcm",]
-		self.parents = ["set_tl_group",]
+		self.parents = ["set_tl_group", "caste", "creature", "select_caste"]
 
+#SELECT_TISSUE_LAYER
+class SelectTissueLayer(Tag):
+	class_type = "select_tissue_layer"
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.need_prefix = ["plus", "tl"]
+		self.parents = ["caste", "creature", "select_caste"]
+
+#TISSUE_LAYER_APPEARANCE_MODIFIER
+class TissueLayerAppearanceModifier(Tag):
+	class_type = "tissue_layer_appearance_modifier"
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.need_prefix = ["app",]
+		self.parents = ["tl_color_modifier", "set_tl_group"]
+
+#TISSUE_STYLE_UNIT
+class TissueStyleUnit(Tag):
+	class_type = "tissue_style_unit"
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.need_prefix = ["tsu",]
+		self.parents = ["set_tl_group",]
