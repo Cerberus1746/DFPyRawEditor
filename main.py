@@ -7,6 +7,7 @@ from tags import Tag
 import inspect, sys
 import class_types.creature_classes
 import class_types.interaction_classes
+
 #raw_root = "D:\\Desktop\\Dwarf Fortress\\Dwarf Fortress - Original\\Dwarf Fortress 0.44.12\\raw\\objects"
 
 raw_root = "."
