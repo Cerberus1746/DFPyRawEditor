@@ -1,20 +1,12 @@
 import os, re, types
 
 from block import Block
-from class_types.creature_classes import (
-	Creature,
-	Caste,
-	Attack,
-	CanDoInteraction,
-	CasteGroup,
-	BpAppearanceModifier,
-	SetTlGroup
-)
-from class_types.interaction_classes import Interaction, ITarget, IEffect
+
 from raw_logger import logDebug, logInfo, info, logError
 from tags import Tag
-
-
+import inspect, sys
+import class_types.creature_classes
+import class_types.interaction_classes
 #raw_root = "D:\\Desktop\\Dwarf Fortress\\Dwarf Fortress - Original\\Dwarf Fortress 0.44.12\\raw\\objects"
 
 raw_root = "."
@@ -27,23 +19,17 @@ file_name = "creature_z_dragons.txt"
 class File(Block):
 	def __init__(self, path, file_name, *args, **kwargs):
 		super().__init__(Tag(), self, *args, **kwargs)
-		self.are_classes = {
-			"interaction": Interaction,
-			"i_target": ITarget,
-			"i_effect": IEffect,
-			"creature":  Creature,
-			"caste": Caste,
-			"select_caste": CasteGroup,
-			"can_do_interaction": CanDoInteraction,
-			"attack": Attack,
-			"bp_appearance_modifier": BpAppearanceModifier,
-			"set_tl_group": SetTlGroup
-		}
+		self.are_classes = {}
+
+		for class_types in ["class_types.creature_classes", "class_types.interaction_classes"]:
+			for _, class_instance in inspect.getmembers(sys.modules[class_types], inspect.isclass):
+				if hasattr(class_instance, 'class_type'):
+					self.are_classes[class_instance.class_type] = class_instance
+
 
 		regex = r"\[([\d\w\s\-\:\.,]+)\]"
 
 		self.tag = None
-
 		self.path = os.path.dirname(path)
 		full_path = os.path.join(path, file_name)
 		self.last_class_block = False
