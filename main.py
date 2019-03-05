@@ -7,7 +7,6 @@ import class_types.interaction_classes
 from raw_logger import logDebug, logInfo, info, logError
 from tags import Tag
 
-
 #raw_root = "D:\\Desktop\\Dwarf Fortress\\Dwarf Fortress - Original\\Dwarf Fortress 0.44.12\\raw\\objects"
 raw_root = "."
 
@@ -19,7 +18,7 @@ file_name = "creature_standard_test.txt"
 
 class File(Block):
 	def __init__(self, path, file_name, *args, **kwargs):
-		super().__init__(Tag(), self, *args, **kwargs)
+		super().__init__(Tag(file_name, [path,]), self, *args, **kwargs)
 		self.are_classes = {}
 
 		for class_types in ["class_types.creature_classes", "class_types.interaction_classes"]:
@@ -28,20 +27,19 @@ class File(Block):
 					self.are_classes[class_instance.class_type] = class_instance
 
 
-		regex = r"\[([\d\w\s\-\:\.,]+)\]"
+		regex = r"\[([\d\w\-\:\., ]+)\]"
 
 		self.tag = None
 		self.path = os.path.dirname(path)
 		full_path = os.path.join(path, file_name)
-		self.last_class_block = False
 
 		self.regex = re.compile(regex)
 
 		if not os.path.isdir(path):
-			logError("Invalid folder supplied")
+			logError("Invalid folder supplied", IOError())
 
 		if not os.path.isfile(full_path):
-			logError("Invalid file supplied")
+			logError("Invalid file supplied", IOError())
 
 		self.file_name = file_name.split(".")
 		self.file_extension = self.file_name[-1]
@@ -95,8 +93,6 @@ class File(Block):
 		if prefix not in needed_prefix:
 			return "INVALID"
 
-
-
 	def assign_parents(self, new_class):
 		info['last_class'] = new_class
 		try:
@@ -116,7 +112,8 @@ class File(Block):
 
 			elif self.last_class_block.parent_block:
 				logDebug(
-					"Start recursion for class {new_class} with type {class_type} with last class {last_class} to find {parents}".format(
+					"Start recursion for class {new_class} with type {class_type} \
+					with last class {last_class} to find {parents}".format(
 						new_class=new_class,
 						class_type= new_class.class_type,
 						last_class=self.last_class_block,
@@ -136,9 +133,12 @@ class File(Block):
 			logError(self.last_block, e)
 
 	def to_raw(self):
-		return self.file_name + ("\n"*2) + super().to_raw(True)
+		return self.file_name + ("\n" * 2) + super().to_raw(True)
+
+	def to_json(self):
+		return super().to_dict()
 
 if __name__ == "__main__":
 	file = File(raw_root, file_name)
-	logInfo("<pre>"+ file.to_raw() +"</pre>")
-	logInfo(Tag.tag_index._tag_list)
+
+	logInfo(file.to_json())

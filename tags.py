@@ -2,9 +2,8 @@ from collections.abc import Iterable
 
 from raw_logger import logDebug
 
-class TagIndex(object):
+class TagIndex(list):
 	_instance = None
-	_tag_list = []
 
 	def __new__(cls, *args, **kwargs):
 		if cls._instance is None:
@@ -13,7 +12,7 @@ class TagIndex(object):
 
 	def add_tag(self, tag):
 		assert (isinstance(tag, Tag) or issubclass(type(tag), Tag)), "Tag needs to be a subclass of tag or a tag"
-		self._tag_list.append(tag)
+		self.append(tag)
 
 class Tag(object):
 	tag_index = TagIndex()
@@ -40,6 +39,7 @@ class Tag(object):
 		self.owner = owner_class
 		self.need_prefix = False
 		self.parents = False
+		self.block = False
 
 		self.tag_index.add_tag(self)
 
