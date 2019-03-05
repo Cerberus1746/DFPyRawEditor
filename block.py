@@ -169,4 +169,10 @@ class Block(OrderedDict):
 		return output_dict
 
 	def add_tag(self, tag):
+		"""
+		Function used to add tags to current block
+
+		Args:
+			tag (Tag): tag to be added
+		"""
 		self.tags.add(tag)
