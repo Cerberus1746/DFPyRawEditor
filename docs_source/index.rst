@@ -1,19 +1,9 @@
-Welcome to PyRawEditor's documentation!
-=======================================
+Welcome to Py Dwarf Raw Editor's documentation!
+================================================
 
 .. toctree::
 	:maxdepth: 2
 	:caption: Contents:
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-.. automodule:: block
-	:special-members:
-	:private-members:
-	:members:
+	tags
+	blocks

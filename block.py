@@ -1,3 +1,9 @@
+'''
+Module that handles tag blocks (or you can call tag group)
+
+Authors:
+	Leandro (Cerberus1746) Benedet Garcia
+'''
 from collections import OrderedDict
 
 from tags import TagGroup, Tag
@@ -40,7 +46,6 @@ class Block(OrderedDict):
 		block_level += 1
 		self.block_level = block_level
 
-
 		self.tags = TagGroup(owner=self)
 
 		self.parent_block = father
@@ -56,7 +61,7 @@ class Block(OrderedDict):
 		"""
 		This function always returns the parsed tag that is the index of this block
 
-		Returns
+		Returns:
 			str: The raw representation of the index tag ([CREATURE:DWARF] for example)
 		"""
 		return str(self.tag)
@@ -131,7 +136,8 @@ class Block(OrderedDict):
 		Function used to convert all the child blocks and the tags in this block to Dwarf Fortress raws
 
 		Args:
-			auto_join (bool): If true, will return a string with the parsed tags separated by a line break, if False, will return a list of parsed tags
+			auto_join (bool): If true, will return a string with the parsed tags separated by a line break,
+			if False, will return a list of parsed tags
 
 		Returns:
 			list or str: returns string if auto_join is true and list if it's False
@@ -154,19 +160,43 @@ class Block(OrderedDict):
 		else:
 			return lines
 
-	def to_dict(self):
+	def to_dict(self, add_name = True):
 		"""
 		Psst, psst, this isn't currently working, so look away for a bit. Yeah, that way,
+
+		Todo:
+			* Find a good pattern to organize the dictionaries
 		"""
 
-		output_dict = {
-			{self.tag.tag_name: self.tag.tag_args}: {
-				"tags": [{current_tag.tag_name: current_tag.tag_args} for current_tag in self.tags],
-				"parents": [current_parent.to_dict() for current_parent in self.values()]
-			}
-		}
+		inner_dict = {}
 
-		return output_dict
+		for current_tag in self.tags:
+			tag_name = current_tag.tag_name
+			tag_args = current_tag.tag_args
+
+			if tag_args:
+				if tag_name not in inner_dict: inner_dict[tag_name] = []
+				inner_dict[tag_name].append(":".join(tag_args))
+			else:
+				if "tags" not in inner_dict: inner_dict["tags"] = []
+				inner_dict["tags"].append(tag_name)
+
+		for tag_key, current_parent in self.items():
+			tag_name = tag_key.tag_name
+			tag_args = tag_key.tag_args
+			if tag_name not in inner_dict:
+				inner_dict[tag_name] = []
+
+			inner_dict[tag_name].append([":".join(tag_args), current_parent.to_dict(False)])
+
+
+		if add_name:
+			return {
+				self.tag.tag_name: [":".join(self.tag.tag_args), inner_dict]
+			}
+		else:
+			return inner_dict
+
 
 	def add_tag(self, tag):
 		"""

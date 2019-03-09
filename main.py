@@ -1,9 +1,14 @@
+'''
+Authors:
+	Leandro (Cerberus1746) Benedet Garcia
+'''
+
 import inspect, sys
-import os, re, types
+import os, re, types, json
 
 from block import Block
-import class_types.creature_classes
-import class_types.interaction_classes
+import class_types.creature_classes  # @UnusedImport
+import class_types.interaction_classes  # @UnusedImport
 from raw_logger import logDebug, logInfo, info, logError
 from tags import Tag
 
@@ -136,7 +141,7 @@ class File(Block):
 		return self.file_name + ("\n" * 2) + super().to_raw(True)
 
 	def to_json(self):
-		return super().to_dict()
+		return json.dumps(super().to_dict())
 
 if __name__ == "__main__":
 	file = File(raw_root, file_name)

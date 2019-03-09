@@ -11,7 +11,7 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
+
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyRawEditor'
+project = 'Py Dwarf Raw Editor'
 copyright = '2019, Leandro (Cerberus1746) Benedet Garcia'
 author = 'Leandro (Cerberus1746) Benedet Garcia'
 
@@ -39,14 +39,19 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.imgmath',
-    'sphinx.ext.githubpages',
-    'sphinxcontrib.napoleon'
+	'sphinx.ext.autodoc',
+	'sphinx.ext.doctest',
+	'sphinx.ext.todo',
+	'sphinx.ext.coverage',
+	'sphinx.ext.imgmath',
+	'sphinx.ext.githubpages',
+	'sphinxcontrib.napoleon',
+	'sphinxcontrib.wiki'
 ]
+
+wiki_enabled = True
+
+autodoc_default_flags = ['members','special-members','private-members']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -81,7 +86,7 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'bizstyle'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -108,35 +113,35 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PyRawEditordoc'
+htmlhelp_basename = 'PyDwarfRawEditordoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
+	# The paper size ('letterpaper' or 'a4paper').
+	#
+	# 'papersize': 'letterpaper',
 
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
+	# The font size ('10pt', '11pt' or '12pt').
+	#
+	# 'pointsize': '10pt',
 
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
+	# Additional stuff for the LaTeX preamble.
+	#
+	# 'preamble': '',
 
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
+	# Latex figure (float) alignment
+	#
+	# 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'PyRawEditor.tex', 'PyRawEditor Documentation',
-     'Leandro (Cerberus1746) Benedet Garcia', 'manual'),
+	(master_doc, 'PyDwarfRawEditor.tex', 'Py Dwarf Raw Editor Documentation',
+	 'Leandro (Cerberus1746) Benedet Garcia', 'manual'),
 ]
 
 
@@ -145,8 +150,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'pyraweditor', 'PyRawEditor Documentation',
-     [author], 1)
+	(master_doc, 'pydwarfraweditor', 'Py Dwarf Raw Editor Documentation',
+	 [author], 1)
 ]
 
 
@@ -156,9 +161,9 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'PyRawEditor', 'PyRawEditor Documentation',
-     author, 'PyRawEditor', 'One line description of project.',
-     'Miscellaneous'),
+	(master_doc, 'Py Dwarf Raw Editor', 'Py Dwarf Raw Editor Documentation',
+	author, 'Py Dwarf Raw Editor', 'One line description of project.',
+	'Miscellaneous'),
 ]
 
 
@@ -186,3 +191,17 @@ epub_exclude_files = ['search.html']
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
+
+rst_file_suffix = '.rst'
+rst_link_suffix = ''
+rst_line_width = 78
+rst_indent = 4
+def rst_file_transform(docname):
+	if docname == 'index':
+		docname = 'home'
+	return docname.title() + rst_file_suffix
+
+def rst_link_transform(docname):
+	if docname == 'index':
+		return 'wiki'
+	return 'wiki/' + docname.title()

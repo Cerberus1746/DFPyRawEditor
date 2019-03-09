@@ -1,0 +1,257 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tags &#8212; Py Dwarf Raw Editor  documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Blocks" href="blocks.html" />
+    <link rel="prev" title="Welcome to Py Dwarf Raw Editor’s documentation!" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="blocks.html" title="Blocks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Py Dwarf Raw Editor’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Py Dwarf Raw Editor  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Py Dwarf Raw Editor’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="blocks.html"
+                        title="next chapter">Blocks</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tags.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-tags">
+<span id="tags"></span><h1>Tags<a class="headerlink" href="#module-tags" title="Permalink to this headline">¶</a></h1>
+<p>Module that handles tags</p>
+<dl class="docutils">
+<dt>Authors:</dt>
+<dd>Leandro (Cerberus1746) Benedet Garcia</dd>
+</dl>
+<dl class="class">
+<dt id="tags.TagGroup">
+<em class="property">class </em><code class="descclassname">tags.</code><code class="descname">TagGroup</code><span class="sig-paren">(</span><em>owner=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagGroup" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="tags.TagGroup.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>owner=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagGroup.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tags.TagGroup.__str__">
+<code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagGroup.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tags.TagGroup.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagGroup.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an element to a set.</p>
+<p>This has no effect if the element is already present.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tags.TagIndex">
+<em class="property">class </em><code class="descclassname">tags.</code><code class="descname">TagIndex</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is a singleton, meaning that anything that tries to instantiate this class,
+will actually use the same instance as anything that instantiated it.</p>
+<p>This class is used to keep all the tags created by the parser. Inside, deep inside, in his hearth,
+is just a list object but with extra things. I did this so I don’t need to set iters and stuff manually</p>
+<dl class="attribute">
+<dt id="tags.TagIndex._instance">
+<code class="descname">_instance</code><a class="headerlink" href="#tags.TagIndex._instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the var that holds the unique instance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="#tags.TagIndex" title="tags.TagIndex">TagIndex</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<ul class="last simple">
+<li>Create get_parent function</li>
+</ul>
+</div>
+<dl class="method">
+<dt id="tags.TagIndex.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagIndex.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="tags.TagIndex.__new__">
+<em class="property">static </em><code class="descname">__new__</code><span class="sig-paren">(</span><em>cls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagIndex.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is what makes sure there’s only one instance of this class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">return the instance before it goes to __init__, if the instance don’t exist, it creates if not,
+it uses the instance already made</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#tags.TagIndex" title="tags.TagIndex">TagIndex</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tags.TagIndex.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#tags.TagIndex.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tags.TagIndex.get_tags">
+<code class="descname">get_tags</code><span class="sig-paren">(</span><em>tag_name</em>, <em>tag_args=False</em><span class="sig-paren">)</span><a class="headerlink" href="#tags.TagIndex.get_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the father of all functions that search for a tag.</p>
+<p>The search can be made by supplying a DF tag, the tag name with a list of args
+or a Tag object</p>
+<p class="rubric">Examples</p>
+<p>Let’s say that we created the tags [CREATURE:DWARF] and a couple others with
+literal blocks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tags</span> <span class="k">import</span> <span class="n">Tag</span>
+
+<span class="n">Tag</span><span class="p">(</span><span class="s2">&quot;[CREATURE:DWARF]&quot;</span><span class="p">)</span>
+<span class="n">Tag</span><span class="p">(</span><span class="s2">&quot;[CREATURE:GOBLIN]&quot;</span><span class="p">)</span>
+<span class="n">Tag</span><span class="p">(</span><span class="s2">&quot;[INTERACTION:RAISE_CORPSE]&quot;</span><span class="p">)</span>
+<span class="n">Tag</span><span class="p">(</span><span class="s2">&quot;[INTELLIGENT]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now get all tags that are creatures with:
+literal blocks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Tag</span><span class="o">.</span><span class="n">tag_index</span><span class="o">.</span><span class="n">get_tags</span><span class="p">(</span><span class="s2">&quot;creature&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It will return the tags [CREATURE:DWARF] and [CREATURE:GOBLIN] inside a generator, which
+you can iter over with or convert into a list for example. If you want to just get the dwarf
+you can have some options:
+literal block:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#via a normal tag</span>
+<span class="n">Tag</span><span class="o">.</span><span class="n">tag_index</span><span class="o">.</span><span class="n">get_tags</span><span class="p">(</span><span class="s2">&quot;[CREATURE:DWARF]&quot;</span><span class="p">)</span>
+
+<span class="c1">#using a tag object</span>
+<span class="c1">#IMPORTANT: if you create two times the tag, it will return TWO dwarf tags,</span>
+<span class="c1">#because the indexes indexes everything, so be careful</span>
+<span class="n">dwarf_tag</span> <span class="o">=</span> <span class="n">Tag</span><span class="p">(</span><span class="s2">&quot;[CREATURE:DWARF]&quot;</span><span class="p">)</span>
+<span class="n">Tag</span><span class="o">.</span><span class="n">tag_index</span><span class="o">.</span><span class="n">get_tags</span><span class="p">(</span><span class="n">dwarf_tag</span><span class="p">)</span>
+
+<span class="c1">#with a list of args</span>
+<span class="n">Tag</span><span class="o">.</span><span class="n">tag_index</span><span class="o">.</span><span class="n">get_tags</span><span class="p">(</span><span class="s2">&quot;creature&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;goblin&quot;</span><span class="p">,])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tag_name</strong> (<em>string</em><em> or </em><em>Tag</em>) – Tag to search for, can be a Tag obj or a DF raw tag.</li>
+<li><strong>tag_args</strong> (<em>Iter</em><em>, </em><em>bool</em>) – iter of args, if default false, it will lookup just for tag names and not compare args unless  set in a tag object in tag_args argument.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body"><p class="first last">returns a generator with the tags that matches the query</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="blocks.html" title="Blocks"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Py Dwarf Raw Editor’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Py Dwarf Raw Editor  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Leandro (Cerberus1746) Benedet Garcia.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>

@@ -1,3 +1,7 @@
+'''
+Authors:
+	Leandro (Cerberus1746) Benedet Garcia
+'''
 # -*- coding: utf-8 -*-
 import logging
 import os

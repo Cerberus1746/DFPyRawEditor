@@ -1,0 +1,3 @@
+Tags
+=====
+.. automodule:: tags

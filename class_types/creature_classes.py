@@ -22,11 +22,6 @@ class CanDoInteraction(Tag):
 class Creature(Tag):
 	class_type = "creature"
 
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-
-		self._current_index = -1
-
 
 class Caste(Tag):
 	class_type = "caste"

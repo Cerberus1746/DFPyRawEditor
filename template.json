@@ -1,0 +1,176 @@
+{
+    "object": [
+        "creature",
+        {
+            "creature": [
+                [
+                    [
+                        "draco"
+                    ],
+                    {
+                        "tags": [
+                            [
+                                "name",
+                                [
+                                    "draco",
+                                    "dracos",
+                                    "draco"
+                                ]
+                            ]
+                        ],
+                        "caste": [
+                            [
+                                [
+                                    "true_draco_female"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "caste_name",
+                                            [
+                                                "true draco female",
+                                                "true female dracos",
+                                                "true draco female"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ],
+                            [
+                                [
+                                    "true_draco_male"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "caste_name",
+                                            [
+                                                "true draco male",
+                                                "true male dracos",
+                                                "draco",
+                                                "true draco male"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ],
+                            [
+                                [
+                                    "female"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "caste_name",
+                                            [
+                                                "draco female",
+                                                "female dracos",
+                                                "draco female"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ],
+                            [
+                                [
+                                    "male"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "caste_name",
+                                            [
+                                                "draco male",
+                                                "male dracos",
+                                                "draco",
+                                                "draco male"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ]
+                        ],
+                        "select_caste": [
+                            [
+                                [
+                                    "true_draco_female"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "select_additional_caste",
+                                            [
+                                                "true_draco_male"
+                                            ]
+                                        ],
+                                        [
+                                            "description",
+                                            [
+                                                "the direct descendant of dragons, can breath fire and have horns on their foreheads"
+                                            ]
+                                        ]
+                                    ],
+                                    "can_do_interaction": [
+                                        [
+                                            [
+                                                "secret_fire"
+                                            ],
+                                            {
+                                                "tags": [
+                                                    [
+                                                        "cdi",
+                                                        [
+                                                            "adv_name",
+                                                            "awaken fire secret"
+                                                        ]
+                                                    ]
+                                                ]
+                                            }
+                                        ]
+                                    ]
+                                }
+                            ],
+                            [
+                                [
+                                    "female"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "select_additional_caste",
+                                            [
+                                                "male"
+                                            ]
+                                        ],
+                                        [
+                                            "creature_class",
+                                            [
+                                                "draco"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ],
+                            [
+                                [
+                                    "all"
+                                ],
+                                {
+                                    "tags": [
+                                        [
+                                            "use_material_template",
+                                            [
+                                                "claw",
+                                                "nail_template"
+                                            ]
+                                        ]
+                                    ]
+                                }
+                            ]
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}
