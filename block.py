@@ -127,9 +127,20 @@ class Block(OrderedDict):
 			Block: The created block
 		"""
 		assert (isinstance(tag, Tag) or issubclass(type(tag), Tag)), "Key needs to be a tag"
-		assert isinstance(block, Block), "Value needs to be a block"
+		assert isinstance(block, Block) or type(block) == list, "Value needs to be a block"
 
-		return super().__setitem__(tag, block)
+		tag.block = block
+
+		if tag in self and tag.allow_duplicates:
+			older_value = self[tag]
+			if type(older_value) == list:
+				self[tag].append(block)
+			else:
+				return super().__setitem__(tag, [older_value, block])
+
+			return self[tag]
+		else:
+			return super().__setitem__(tag, block)
 
 	def to_raw(self, auto_join):
 		"""
@@ -152,7 +163,11 @@ class Block(OrderedDict):
 			lines.append("\n".join(after_tabs))
 
 		for child_class in self.values():
-			lines.append(child_class.to_raw(True))
+			if type(child_class) == list:
+				for current_child in child_class:
+					lines.append(current_child.to_raw(True))
+			else:
+				lines.append(child_class.to_raw(True))
 
 		if auto_join:
 			return "\n".join(lines)
@@ -162,32 +177,43 @@ class Block(OrderedDict):
 
 	def to_dict(self, add_name = True):
 		"""
-		Psst, psst, this isn't currently working, so look away for a bit. Yeah, that way,
-
-		Todo:
-			* Find a good pattern to organize the dictionaries
+		This function returns all parents and tags grouped into a dict used to
+		export the raws
 		"""
 
 		inner_dict = {}
 
 		for current_tag in self.tags:
 			tag_name = current_tag.tag_name
-			tag_args = current_tag.tag_args
+			tag_args = ":".join(current_tag.tag_args)
 
 			if tag_args:
 				if tag_name not in inner_dict: inner_dict[tag_name] = []
-				inner_dict[tag_name].append(":".join(tag_args))
+				inner_dict[tag_name].append(tag_args)
 			else:
 				if "tags" not in inner_dict: inner_dict["tags"] = []
 				inner_dict["tags"].append(tag_name)
 
 		for tag_key, current_parent in self.items():
 			tag_name = tag_key.tag_name
-			tag_args = tag_key.tag_args
+			tag_args = ":".join(tag_key.tag_args)
 			if tag_name not in inner_dict:
-				inner_dict[tag_name] = []
+				inner_dict[tag_name] = {}
 
-			inner_dict[tag_name].append([":".join(tag_args), current_parent.to_dict(False)])
+			if tag_args in inner_dict[tag_name]:
+				older_value = inner_dict[tag_name][tag_args]
+				if type(older_value) == list:
+					inner_dict[tag_name][tag_args].append(current_parent.to_dict(False))
+				else:
+					inner_dict[tag_name][tag_args] = [older_value, current_parent.to_dict(False)]
+
+			else:
+				if type(current_parent) == list:
+					inner_dict[tag_name][tag_args] = []
+					for children in current_parent:
+						inner_dict[tag_name][tag_args].append(children.to_dict(False))
+				else:
+					inner_dict[tag_name][tag_args] = current_parent.to_dict(False)
 
 
 		if add_name:

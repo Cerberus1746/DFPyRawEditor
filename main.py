@@ -4,7 +4,7 @@ Authors:
 '''
 
 import inspect, sys
-import os, re, types, json
+import os, re, types, json, yaml
 
 from block import Block
 import class_types.creature_classes  # @UnusedImport
@@ -16,9 +16,9 @@ from tags import Tag
 raw_root = "."
 
 #file_name = "interaction_standard.txt"
-#file_name = "creature_z_dragons.txt"
+file_name = "creature_z_dragons.txt"
 #file_name = "creature_z_dragons_test.txt"
-file_name = "creature_standard_test.txt"
+#file_name = "creature_standard_test.txt"
 
 
 class File(Block):
@@ -141,9 +141,14 @@ class File(Block):
 		return self.file_name + ("\n" * 2) + super().to_raw(True)
 
 	def to_json(self):
-		return json.dumps(super().to_dict())
+		with open("export.json", "w") as json_file:
+			json.dump(super().to_dict(), json_file, indent=4)
+
+	def to_yaml(self):
+		with open("export.yaml", "w") as yaml_file:
+			yaml.dump(super().to_dict(), yaml_file, indent=4)
 
 if __name__ == "__main__":
 	file = File(raw_root, file_name)
-
-	logInfo(file.to_json())
+	file.to_json()
+	#logInfo("<pre>" + file.to_raw() + "</pre>")

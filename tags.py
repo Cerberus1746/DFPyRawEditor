@@ -133,6 +133,7 @@ class Tag(object):
 		self.need_prefix = False
 		self.parents = False
 		self.block = False
+		self.allow_duplicates = False
 
 		self.tag_args = self.tag_args if type(self.tag_args) == list or not tag_args else list(self.tag_args)
 
@@ -148,10 +149,7 @@ class Tag(object):
 		return str(self) > str(other)
 
 	def __hash__(self):
-		if self.tag_args:
-			return hash(self.tag_name + str(self.tag_args))
-		else:
-			return hash(self.tag_name)
+		return hash(self.tag_name + str(self.tag_args) + str(self.block) + str(self.owner))
 
 	def __repr__(self):
 		return self.__str__()

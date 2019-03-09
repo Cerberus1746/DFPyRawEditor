@@ -9,6 +9,7 @@ class Attack(Tag):
 
 		self.need_prefix = ["attack",]
 		self.parents = ["caste", "creature", "select_caste"]
+		self.allow_duplicates = True
 
 class CanDoInteraction(Tag):
 	class_type = "can_do_interaction"
@@ -18,6 +19,7 @@ class CanDoInteraction(Tag):
 
 		self.need_prefix = ["cdi",]
 		self.parents = ["caste", "creature", "select_caste"]
+		self.allow_duplicates = True
 
 class Creature(Tag):
 	class_type = "creature"
