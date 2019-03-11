@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="width=device-width,initial-scale=1" name="viewport" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<link type="text/css" rel="stylesheet" href="http://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+		<link  type="text/css" rel="stylesheet" href="http://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+	</head>
+
+	<body>
+		<div id='app'>
+			<b-alert show> Hello {{ name }}! </b-alert>
+		</div>
+	</body>
+	<script>
+		var app = new Vue({
+			"el": "#app",
+				data: {
+					name: "Sitepoint"
+				}
+		});
+	</script>
+	<script src="http://unpkg.com/vue@latest/dist/vue.js"></script>
+	<script src="http://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+</html>

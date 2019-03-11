@@ -151,4 +151,5 @@ class File(Block):
 if __name__ == "__main__":
 	file = File(raw_root, file_name)
 	file.to_json()
+	file.to_yaml()
 	#logInfo("<pre>" + file.to_raw() + "</pre>")
