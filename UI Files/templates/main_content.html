@@ -1,0 +1,6 @@
+<div id="backdrop" class="backdrop">
+	<div id="highlighter" class="highlights" v-html="highlighted">
+	</div>
+</div>
+<textarea v-on:scroll="sync_scroll" v-model="message" @keydown.tab.prevent="tabber($event)">
+</textarea>

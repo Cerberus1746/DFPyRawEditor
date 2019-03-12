@@ -12,10 +12,15 @@ mime_prepend = "data:"
 mime_suffix = ";base64,"
 
 mime_types = {
+	#images
 	"png": "image/png",
 	"jpg": "image/jpg",
-	"js": "application/javascript",
+
+	#stylesheets
 	"css": "text/css",
+
+	#scripts
+	"js": "application/javascript",
 	"coffee": "application/vnd.coffeescript"
 }
 
@@ -38,7 +43,7 @@ def main():
 	html = template.render()
 
 	cef.Initialize()
-	browser = cef.CreateBrowserSync(url=cef.GetDataUrl(html), window_title="Javascript Bindings")
+	browser = cef.CreateBrowserSync(url=cef.GetDataUrl(html), window_title="Raw Editor")
 
 	cef.MessageLoop()
 	del browser

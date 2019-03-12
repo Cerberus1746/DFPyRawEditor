@@ -1,0 +1,55 @@
+body, html {
+	height: 100%;
+}
+
+textarea {
+	display: block;
+	position: absolute;
+	z-index: 2;
+	margin: 0;
+	border-radius: 0;
+	color: transparent;
+	overflow: auto;
+	resize: none;
+	background-color: transparent;
+}
+
+#sidebar {
+	background-color: #000;
+	color: #FFF;
+	height: 100%;
+}
+
+.container, .backdrop, textarea {
+	width: 95%;
+	height: 500px;
+}
+
+.highlights, textarea {
+	padding: 10px;
+	letter-spacing: 1px;
+}
+
+.backdrop {
+	position: absolute;
+	z-index: 1;
+	overflow: auto;
+	pointer-events: none;
+}
+
+.highlights {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+.attr_tag {
+	color: #99EAFF;
+}
+
+.single_tag {
+	color: #00CBFF;
+}
+
+.args {
+	color: #FFA755;
+}

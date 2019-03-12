@@ -6,14 +6,21 @@
 
 		<link type="text/css" rel="stylesheet" href="{{ 'css_libs/bootstrap.min.css'|to_base64 }}" />
 		<link type="text/css" rel="stylesheet" href="{{ 'css_libs/bootstrap-vue.min.css'|to_base64 }}" />
+
+		<link type="text/css" rel="stylesheet" href="{{ 'css_source/style.css'|to_base64 }}" />
+		{% block head %}
+		{% endblock %}
 	</head>
 
 	<body>
-		<b-container id="app" fluid>
-			<b-row>
-				<b-col>1 of 3</b-col>
-				<b-col>2 of 3</b-col>
-				<b-col>3 of 3</b-col>
+		<b-container id="app" class="h-100" fluid>
+			<b-row class="h-100">
+				<b-col id="sidebar" class="h-100" cols="2">
+					{% include "sidebar.html" %}
+				</b-col>
+				<b-col>
+					{% include "main_content.html" %}
+				</b-col>
 			</b-row>
 		</b-container>
 	</body>
