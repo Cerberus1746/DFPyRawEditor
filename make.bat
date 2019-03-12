@@ -26,6 +26,10 @@ if errorlevel 9009 (
 )
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
+
+move /y docs\html\_sources\* docs\_sources
+move /y docs\html\_static\* docs\_static
+move /y docs\html\* docs
 goto end
 
 :help

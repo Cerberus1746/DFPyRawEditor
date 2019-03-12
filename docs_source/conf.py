@@ -191,17 +191,3 @@ epub_exclude_files = ['search.html']
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
-
-rst_file_suffix = '.rst'
-rst_link_suffix = ''
-rst_line_width = 78
-rst_indent = 4
-def rst_file_transform(docname):
-	if docname == 'index':
-		docname = 'home'
-	return docname.title() + rst_file_suffix
-
-def rst_link_transform(docname):
-	if docname == 'index':
-		return 'wiki'
-	return 'wiki/' + docname.title()
